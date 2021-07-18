@@ -50,13 +50,13 @@
         <div class="sidebar-menu">
             <div class="sidebar-header">
                 <div class="logo">
-                    <a href="index.jsp"><img src="assets/images/icon/logo.png" alt="logo"></a>
+                    <a href="index.html"><img src="<%out.print(getServletContext().getContextPath());%>/assets/images/icon/logo.png" alt="logo"></a>
                 </div>
                 <br>
                 <h6 class="text-center" style="color: aliceblue"><i class="fa fa-user"></i> <strong>JCode</strong></h6>
             </div>
-           <!-- MENU AREA -->
-           <jsp:include page="menu.jsp" />
+            <!-- MENU AREA -->
+            <jsp:include page="../../menu.jsp" />
         </div>
         <!-- sidebar menu area end -->
         <!-- main content area start -->
@@ -87,12 +87,80 @@
             </div>
             <!-- header area end -->
             <div class="main-content-inner">
-
+				<div class="row" style="padding-top: 30px">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body">
+								<h6>Produtos</h6>
+								<form id="frmProduto">
+									<div class="row mt-3">
+										<div class="form-group col-sm-9 col-12">
+											<input class="form-control form-control-sm" placeholder="Nome"
+															type="text" id="idNome" name="nome">
+															
+										</div>
+										<div class="col-sm-3 col-12">
+											<button type="submit" id="btnPesquisar" class="btn btn-primary btn-xs mr-3"><i class="fa fa-search" aria-hidden="true"></i> PESQUISAR</button>
+											<button type="button" id="btnAbrir" class="btn btn-primary btn-xs"><i class="fa fa-plus-square" aria-hidden="true"></i></button>
+										</div>
+									</div>
+								</form>
+								<div class="row">
+									<div class="col-12">
+										<div class="table-responsive">
+											<table class="table table-hover table-bordered">
+												<thead class="bg-primary">
+													<tr class="text-white">
+														<th>CATEGORIA</th>
+														<th>PREÇO</th>
+														<th>ESTOQUE</th>
+														<th>ESTOQUE MÍNIMO</th>
+														<th>ESTOQUE MÁXIMO</th>
+														<th style="width: 15%">AÇÃO</th>
+													</tr>
+												</thead>
+												<tbody id="tbodyProd">
+													<tr>
+														<td>&nbsp;</td>
+														<td>&nbsp;</td>
+														<td>&nbsp;</td>
+														<td>&nbsp;</td>
+														<td>&nbsp;</td>
+														<td>&nbsp;</td>
+													</tr>
+												
+												</tbody>
+											</table>
+										</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-2 col-12">
+											<select id="sizePageProduto" name="sizePageProduto" class="form-control form-control-sm" >
+												<option value="10">10</option>
+												<option value="15">15</option>
+												<option value="20">20</option>
+											</select>
+										</div>
+										<div class="col-md-10 col-12">
+											<nav>
+												<ul id="paginationProduto" class="pagination pagination-sm justify-content-end">
+												
+												</ul>
+											</nav>
+										</div>
+										
+									</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
             </div>
         </div>
         <!-- main content area end -->
         <!-- footer area start-->
-       	<jsp:include page="rodape.jsp" />
+        	<jsp:include page="../../rodape.jsp"/>
         <!-- footer area end-->
     </div>
     <!-- page container area end -->
