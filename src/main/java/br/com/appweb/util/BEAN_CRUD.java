@@ -7,6 +7,10 @@ public class BEAN_CRUD {
 	public BEAN_CRUD() {
 		
 	}
+	
+	public BEAN_CRUD(BEAN_PAGINATION BEAN_PAGINATION) {
+		this.BEAN_PAGINATION = BEAN_PAGINATION;
+	}
 
 	public String getMESSAGE_SERVER() {
 		return this.MESSAGE_SERVER;
