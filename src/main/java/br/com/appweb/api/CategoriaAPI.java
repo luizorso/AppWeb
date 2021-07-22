@@ -7,6 +7,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,9 +46,21 @@ public class CategoriaAPI extends HttpServlet {
 	
 	@Override
 	public void init() throws ServletException {
+		
+		Context initCtx;
+		try {
+			initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			pool = (DataSource) envCtx.lookup("jdbc/appweb");
+		} catch (NamingException e) {
+			
+			e.printStackTrace();
+		}
+		
 		this.jsonParse = new Gson();
 		this.parameters = new HashMap<>();
 		this.categoriaDAO = new CategoriaDAOImpl(this.pool);
+	
 	}
 
 	/**
@@ -61,26 +76,9 @@ public class CategoriaAPI extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		processRequest(request, response);
 	}
-	
-	/*protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException{
-			try {
-				if(this.pool.getConnection() != null) {
-					LOG.info("CONEXÃO EFETUADA COM SUCESSO!");
-					System.out.println("CONEXÃO EFETUADA COM SUCESSO!");
-				}else {
-					LOG.info("FALHA NA CONEXÃO!");
-					System.out.println("FALHA NA CONEXÃO!");
-				}
-			} catch (SQLException e) {
-				 Logger.getLogger(CategoriaAPI.class.getName()).log(Level.SEVERE, null, e);
-				e.printStackTrace();
-			}
-		}
-	*/
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -88,10 +86,10 @@ public class CategoriaAPI extends HttpServlet {
 		try {
 			switch (this.action) {
 			case "paginarCategoria":
-				/*BEAN_PAGINATION beanPagination = 
+				//BEAN_PAGINATION beanPagination = 
 					this.categoriaDAO.getPagination(getParameters(request));
-				BEAN_CRUD beanCrud = new BEAN_CRUD(beanPagination);
-				*/
+				//BEAN_CRUD beanCrud = new BEAN_CRUD(beanPagination);
+				
 				processCategoria(new BEAN_CRUD(this.categoriaDAO.getPagination(getParameters(request))), response);
 				break;
 			case "addCategoria":
@@ -129,19 +127,21 @@ public class CategoriaAPI extends HttpServlet {
 		this.parameters.clear();
 		this.parameters.put("FILTER", request.getParameter("nome"));
 		this.parameters.put("SQL_ORDER_BY", "nome ASC");
+		// LIMIT 20 OFFSET 0
+        
 		this.parameters.put("SQL_LIMIT",
-				" LIMIT" + request.getParameter("sizePageCategoria") + " OFFSET "
+				" LIMIT " + request.getParameter("sizePageCategoria") + " OFFSET "
 						+ (Integer.parseInt(request.getParameter("numberPageCategoria"))
-								- 1 * Integer.parseInt(request.getParameter("sizePageCategoria"))));
+								- 1 ) * Integer.parseInt(request.getParameter("sizePageCategoria")));
 		return this.parameters;
 	}
 	
 	private Categoria getCategoria(HttpServletRequest request) {
 		Categoria categoria = new Categoria();
 		if(request.getParameter("action").equals("updateCategoria")) {
-			categoria.setIdCategoria(Integer.parseInt("idCategoria"));
+			categoria.setIdCategoria(Integer.parseInt("idCategoriaER"));
 		}
-		categoria.setNome(request.getParameter("nome"));
+		categoria.setNome(request.getParameter("nomeER"));
 		return categoria;
 		
 	}

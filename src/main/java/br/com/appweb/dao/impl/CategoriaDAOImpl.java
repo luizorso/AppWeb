@@ -28,15 +28,14 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 		
 	}
 
-	@SuppressWarnings("resource")
+
 	@Override
-	public BEAN_PAGINATION getPagination(HashMap<String, Object> parameters, Connection con) throws SQLException {
+	public BEAN_PAGINATION getPagination(HashMap<String, Object> parameters, Connection con) 
+			throws SQLException {
 		BEAN_PAGINATION beanPagination = new BEAN_PAGINATION();
 		List<Categoria> lista = new ArrayList<>();
 		
-		String sql= "SELECT COUNT(idCategoria) " + 
-					"AS COUNT FROM categoria " + 
-					"WHERE nome like CONCAT('%',?,'%')";
+		String sql= "SELECT COUNT(idCategoria) AS COUNT FROM categoria WHERE nome like CONCAT('%',?,'%')";
 		PreparedStatement pstmt;
 		ResultSet rs;
 		try {
@@ -67,22 +66,26 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			rs.close();
 			pstmt.close();
 			
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			System.out.print("Falha na Paginação: " + e.getMessage());
+			e.printStackTrace();	
 		}
 		return beanPagination;
 	}
 
 	@Override
-	public BEAN_PAGINATION getPagination(HashMap<String, Object> parameters) throws SQLException {
+	public BEAN_PAGINATION getPagination(HashMap<String, Object> parameters) 
+			throws SQLException {
 		BEAN_PAGINATION beanPagination = null;
 		
 		try (Connection con = this.pool.getConnection()){
 			beanPagination = getPagination(parameters, con);
 			
 			
-		} catch (Exception e) {
-			System.out.println("Falha ao listar os registros da base de dados:" + e.getMessage());
+		} catch (SQLException e) {
+			System.out.println("Falha ao listar os registros da base de dados:" 
+					+ e.getMessage());
+			e.printStackTrace();
 		}
 		
 		return beanPagination;
@@ -126,7 +129,8 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 	}
 
 	@Override
-	public BEAN_CRUD update(Categoria obj, HashMap<String, Object> parameters)throws SQLException {
+	public BEAN_CRUD update(Categoria obj, HashMap<String, Object> parameters)
+			throws SQLException {
 		BEAN_CRUD beanCrud = new BEAN_CRUD();
 		String sql = "SELECT COUNT(idCategoria) AS COUNT FROM categoria " + 
 					 "WHERE nome = ? AND idCategoria != ?";
@@ -166,7 +170,8 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 	}
 
 	@Override
-	public BEAN_CRUD remove(Integer id, HashMap<String, Object> parameters)throws SQLException {
+	public BEAN_CRUD remove(Integer id, HashMap<String, Object> parameters)
+			throws SQLException {
 		BEAN_CRUD beanCrud = new BEAN_CRUD();
 		String sql = "DELETE FROM categoria WHERE idCategoria = ?";
 		PreparedStatement pstmt;

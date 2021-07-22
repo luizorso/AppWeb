@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/assets/css/metisMenu.css">
     <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/assets/css/slicknav.min.css">
+    
+    
     <!-- amchart css -->
     <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
     <!-- others css -->
@@ -31,6 +33,8 @@
     <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/assets/css/default-css.css">
     <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/assets/css/styles.css">
     <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/assets/css/responsive.css">
+    <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/css/view/estilos.css">
+    <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/css/view/sweetalert.css">
     <!-- modernizr css -->
     <script src="<%out.print(getServletContext().getContextPath());%>/assets/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
@@ -91,7 +95,10 @@
 					<div class="col-12">
 						<div class="card">
 							<div class="card-body">
-								<h6>CATEGORIAS</h6>
+								<h6 id="nameCrudCategoria">CATEGORIAS</h6>
+								<input type="hidden" id="nameFormCategoria" value="frmCategoria">
+								<input type="hidden" id="actionCategoria" name="action" value="paginarCategoria">
+								<input type="hidden" id="numberPageCategoria" name="numberPageCategoria" value="1">
 								<form id="frmCategoria">
 									<div class="row mt-3">
 										<div class="form-group col-sm-9 col-12">
@@ -99,8 +106,8 @@
 															type="text" id="idNome" name="nome">
 										</div>
 										<div class="col-sm-3 col-12">
-											<button type="submit" id="btnPesquisar" class="btn btn-primary btn-xs mr-3"><i class="fa fa-search" aria-hidden="true"></i> PESQUISAR</button>
-											<button type="button" id="btnAbrir" class="btn btn-primary btn-xs"><i class="fa fa-plus-square" aria-hidden="true"></i></button>
+											<button type="submit" id="btnPesquisarCategoria" class="btn btn-primary btn-xs mr-3"><i class="fa fa-search" aria-hidden="true"></i> PESQUISAR</button>
+											<button type="button" id="btnAbrirNCategoria" class="btn btn-primary btn-xs"><i class="fa fa-plus-square" aria-hidden="true"></i></button>
 										</div>
 									</div>
 								</form>
@@ -111,15 +118,11 @@
 												<thead class="bg-primary">
 													<tr class="text-white">
 														<th>CATEGORIA</th>
-														<th style="width: 15%">AÇÃO</th>
+														<th style="width: 15%" colspan="2">AÇÃO</th>
 													</tr>
 												</thead>
-												<tbody id="tbodyCat">
-													<tr>
-														<td>&nbsp;</td>
-														<td>&nbsp;</td>
-													</tr>
-												
+												<tbody id="tbodyCategoria">
+																									
 												</tbody>
 											</table>
 										</div>
@@ -148,6 +151,40 @@
 					</div>
 				</div>
             </div>
+        </div>
+        <!-- Janela Modal -->
+        <div id="frmModalPrincipalCategoria" class="modal" data-backdrop="static"
+        	data-keyboard="false" tabindex="-1" role="dialog">
+        	<div class="modal-dialog" role="document">
+        	<div class="modal-content">
+        		<form id="frmModalCategoria">
+        			<div class="modal-header">
+        				<h6 class="modal-title" id="tituloModalPrincipalCategoria"></h6>
+        				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        					<span aria-hidden="true">&times;</span>
+        				</button>
+        			</div>
+        			<div class="modal-body">
+        				<div class="col-12">
+        					<div class="form-group">
+        					<label for="idNome">NOME</label>
+        					<input type="text" id="idNomeER" name="nomeER" class="form-control form-control-sm" placeholder="nome">
+        					<div class="error-validation" id="validarNome">Informe a categoria</div>
+        				</div>
+        				</div>
+        				<input type="hidden" id="idCategoriaER" name="idCategoria" value="">
+        			
+        			</div>
+        			<div class="modal-footer">
+        				<button type="button" class="btn btn-secondary btn-xs" data-dismiss="modal">Fechar</button>
+        				<button type="submit" class="btn btn-primary btn-xs">Salvar</button>
+        			
+        			</div>
+        			
+        		</form>
+        		</div>
+        	</div>
+        
         </div>
         <!-- main content area end -->
         <!-- footer area start-->
@@ -182,6 +219,7 @@
     <!-- others plugins -->
     <script src="<%out.print(getServletContext().getContextPath());%>/assets/js/plugins.js"></script>
     <script src="<%out.print(getServletContext().getContextPath());%>/assets/js/scripts.js"></script>
+	<script src="<%out.print(getServletContext().getContextPath());%>/js/categoria.js"></script>
 </body>
 
 </html>
