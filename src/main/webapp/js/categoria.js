@@ -25,7 +25,7 @@ function processarAjaxCategoria(){
 		data: dadosSerializadosCompletos,
 		dataType: 'json',
 		success: function(jsonResponse){
-			  console.log(jsonResponse);
+			  console.log(jsonResponse); 
 			  listarCategoria(jsonResponse.BEAN_PAGINATION);
 		},
 		
@@ -52,11 +52,43 @@ function listarCategoria(BEAN_PAGINATION){
 			fila += atributos ;
 			fila += ">";
 			fila += "<td>" + value.nome + "</td>";
-			fila += "<td><button class='btn btn-secondary btn-xs editar-categoria'><i class='fa fa-edit'></i></button></td>";
-			fila += "<td><button class='btn btn-secondary btn-xs excluir-categoria'><i class='fa fa-trash'></i></button></td>";
+			fila += "<td class='text-center'><button class='btn btn-secondary btn-xs editar-categoria'><i class='fa fa-edit'></i></button></td>";
+			fila += "<td class='text-center'><button class='btn btn-secondary btn-xs excluir-categoria'><i class='fa fa-trash'></i></button></td>";
 			fila += "</tr>";
 			
 			$('#tbodyCategoria').append(fila);
+			//Adição dos botões de paginação
+			var defaultOptions = {
+				totalPages: 10,
+				visiblePages: 5,
+				initiateStartPageClick: false,
+				first: "<i class='fa fa-angle-double-left' aria-hidden='true'></i>",
+				prev: "<i class='fa fa-angle-left' aria-hidden='true'></i>",
+				next: "<i class='fa fa-angle-right' aria-hidden='true'></i>",
+				last: "<i class='fa fa-angle-double-right' aria-hidden='true'></i>"
+			};
+			
+			var totalPages = BEAN_PAGINATION.COUNT_FILTER / parseInt($('#sizePageCategoria').val()) + 1;
+			
+			var options = {
+				startPage: parseInt($('#numberPageCategoria').val()),
+				totalPages: totalPages,
+				visiblePages: 5,
+				initiateStartPageClick: false,
+				first: "<i class='fa fa-angle-double-left' aria-hidden='true'></i>",
+				prev: "<i class='fa fa-angle-left' aria-hidden='true'></i>",
+				next: "<i class='fa fa-angle-right' aria-hidden='true'></i>",
+				last: "<i class='fa fa-angle-double-right' aria-hidden='true'></i>",
+				
+				onPageClick: function(evt, page){
+					$('#actionCategoria').val("paginarCategoria");
+					$('#numberPageCategoria').val(page);
+					$('#nameFormCategoria').val("frmCategoria");
+					processarAjaxCategoria();
+				}
+			};
+			$pagination.twbsPagination('destroy');
+			$pagination.twbsPagination($.extend({}, defaultOptions, options ));
 		});
 	}else{
 		console.log("Não há nenhum registro filtrado");

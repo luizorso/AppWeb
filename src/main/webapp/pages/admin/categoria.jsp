@@ -219,7 +219,9 @@
     <!-- others plugins -->
     <script src="<%out.print(getServletContext().getContextPath());%>/assets/js/plugins.js"></script>
     <script src="<%out.print(getServletContext().getContextPath());%>/assets/js/scripts.js"></script>
+    <script src="<%out.print(getServletContext().getContextPath());%>/js/view/jquery.Pagination.min.js"></script>
 	<script src="<%out.print(getServletContext().getContextPath());%>/js/categoria.js"></script>
+	
 </body>
 
 </html>
