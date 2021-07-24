@@ -5,7 +5,29 @@ $(document).ready(function(){
 		$('#frmModalPrincipalCategoria').modal('show');
 	});
 	
-	processarAjaxCategoria();
+	$('#frmCategoria').submit(function (){
+		$('#actionCategoria').val("paginarCategoria");
+		$('#nameFormCategoria').val("frmCategoria");
+		$('#numberPageCategoria').val("1");
+		$('#modalLoadCategoria').modal("show");
+		return false;
+	
+	});
+	
+	
+	
+	$('#modalLoadCategoria').on('shown.bs.modal', function(){
+		processarAjaxCategoria();
+	
+	}); 
+	
+	addEventsCombosPaginar();
+	
+	$('#modalLoadCategoria').modal("show");
+	
+	
+	
+	
 	
 });
 
@@ -25,6 +47,7 @@ function processarAjaxCategoria(){
 		data: dadosSerializadosCompletos,
 		dataType: 'json',
 		success: function(jsonResponse){
+			  $('#modalLoadCategoria').modal("hide");
 			  console.log(jsonResponse); 
 			  listarCategoria(jsonResponse.BEAN_PAGINATION);
 		},
@@ -41,6 +64,8 @@ function processarAjaxCategoria(){
 function listarCategoria(BEAN_PAGINATION){
 	var $pagination = $('#paginationCategoria');
 	$('#tbodyCategoria').empty();
+	$pagination.twbsPagination('destroy');
+	 $('#nameCrudCategoria').html("[ " + BEAN_PAGINATION.COUNT_FILTER + " ] CATEGORIAS");
 	if(BEAN_PAGINATION.COUNT_FILTER > 0){
 		var fila;
 		var atributos;
@@ -49,7 +74,7 @@ function listarCategoria(BEAN_PAGINATION){
 			fila = "<tr ";
 			atributos = "idCategoria='"+ value.idCategoria + "' ";
 			atributos += "nome='" + value.nome + "' ";
-			fila += atributos ;
+			fila += atributos;
 			fila += ">";
 			fila += "<td>" + value.nome + "</td>";
 			fila += "<td class='text-center'><button class='btn btn-secondary btn-xs editar-categoria'><i class='fa fa-edit'></i></button></td>";
@@ -58,37 +83,15 @@ function listarCategoria(BEAN_PAGINATION){
 			
 			$('#tbodyCategoria').append(fila);
 			//Adição dos botões de paginação
-			var defaultOptions = {
-				totalPages: 10,
-				visiblePages: 5,
-				initiateStartPageClick: false,
-				first: "<i class='fa fa-angle-double-left' aria-hidden='true'></i>",
-				prev: "<i class='fa fa-angle-left' aria-hidden='true'></i>",
-				next: "<i class='fa fa-angle-right' aria-hidden='true'></i>",
-				last: "<i class='fa fa-angle-double-right' aria-hidden='true'></i>"
-			};
 			
-			var totalPages = BEAN_PAGINATION.COUNT_FILTER / parseInt($('#sizePageCategoria').val()) + 1;
+			var defaultOptions = getDefaultOptionsPagination();
 			
-			var options = {
-				startPage: parseInt($('#numberPageCategoria').val()),
-				totalPages: totalPages,
-				visiblePages: 5,
-				initiateStartPageClick: false,
-				first: "<i class='fa fa-angle-double-left' aria-hidden='true'></i>",
-				prev: "<i class='fa fa-angle-left' aria-hidden='true'></i>",
-				next: "<i class='fa fa-angle-right' aria-hidden='true'></i>",
-				last: "<i class='fa fa-angle-double-right' aria-hidden='true'></i>",
-				
-				onPageClick: function(evt, page){
-					$('#actionCategoria').val("paginarCategoria");
-					$('#numberPageCategoria').val(page);
-					$('#nameFormCategoria').val("frmCategoria");
-					processarAjaxCategoria();
-				}
-			};
-			$pagination.twbsPagination('destroy');
+			var options = getOptionsPagination(BEAN_PAGINATION.COUNT_FILTER, $('#sizePageCategoria'),
+						$('#numberPageCategoria'), $('#actionCategoria'), "paginarCategoria", 
+						$('#nameFormCategoria'), "frmCategoria", $('#modalLoadCategoria'));
+
 			$pagination.twbsPagination($.extend({}, defaultOptions, options ));
+			$('#idCategoria').focus();
 		});
 	}else{
 		console.log("Não há nenhum registro filtrado");

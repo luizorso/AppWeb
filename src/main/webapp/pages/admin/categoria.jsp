@@ -106,7 +106,7 @@
 															type="text" id="idNome" name="nome">
 										</div>
 										<div class="col-sm-3 col-12">
-											<button type="submit" id="btnPesquisarCategoria" class="btn btn-primary btn-xs mr-3"><i class="fa fa-search" aria-hidden="true"></i> PESQUISAR</button>
+											<button type="submit" id="btnBuscarCategoria" class="btn btn-primary btn-xs mr-3"><i class="fa fa-search" aria-hidden="true"></i> PESQUISAR</button>
 											<button type="button" id="btnAbrirNCategoria" class="btn btn-primary btn-xs"><i class="fa fa-plus-square" aria-hidden="true"></i></button>
 										</div>
 									</div>
@@ -130,7 +130,10 @@
 									</div>
 									<div class="row">
 										<div class="col-md-2 col-12">
-											<select id="sizePageCategoria" name="sizePageCategoria" class="form-control form-control-sm" >
+											<select id="sizePageCategoria" name="sizePageCategoria" 
+													class="form-control form-control-sm combo-paginar" 
+													idBtnBuscar="btnBuscarCategoria">
+												<option value="5">5</option>
 												<option value="10">10</option>
 												<option value="15">15</option>
 												<option value="20">20</option>
@@ -186,6 +189,26 @@
         	</div>
         
         </div>
+        <!-- Form Modal -->
+        <div class="modal" id="modalLoadCategoria" data-backdrop="statict"
+        	data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true"
+        	style="padding-top: 18%; overflow-y: visible;">
+        	<div class="modal-dialog modal-sm">
+        		<div class="modal-content">
+        			<div class="modal-body">
+        				<div class="progress-bar progress-bar-striped progress-bar-animated"
+        					 role="progressbar" aria-valuenow="100" aria-valuemin="0"
+        					 aria-valuemax="100" style="width: 100%" >
+        					 Carregando ...
+        				
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+        
+        
+        </div>
+        
         <!-- main content area end -->
         <!-- footer area start-->
         <jsp:include page="../../rodape.jsp" />
@@ -220,6 +243,7 @@
     <script src="<%out.print(getServletContext().getContextPath());%>/assets/js/plugins.js"></script>
     <script src="<%out.print(getServletContext().getContextPath());%>/assets/js/scripts.js"></script>
     <script src="<%out.print(getServletContext().getContextPath());%>/js/view/jquery.Pagination.min.js"></script>
+    <script src="<%out.print(getServletContext().getContextPath());%>/js/utilities.js"></script>
 	<script src="<%out.print(getServletContext().getContextPath());%>/js/categoria.js"></script>
 	
 </body>
