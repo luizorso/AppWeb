@@ -92,9 +92,10 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 	}
 
 	@Override
-	public BEAN_CRUD add(Categoria obj, HashMap<String, Object> parameters)throws SQLException {
+	public BEAN_CRUD add(Categoria obj, HashMap<String, Object> parameters)
+			throws SQLException {
 		BEAN_CRUD beanCrud = new BEAN_CRUD();
-		String sql = "SELECT COUNT (idCategoria) AS COUNT FROM categoria WHERE nome = ?";
+		String sql = "SELECT COUNT(idCategoria) AS COUNT FROM categoria WHERE nome = ?";
 		PreparedStatement pstmt;
 		ResultSet rs;
 		try(Connection con = this.pool.getConnection(); 
@@ -107,11 +108,12 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			while(rs.next()) {
 				if(rs.getInt("COUNT") == 0) {
 					sql = "INSERT INTO categoria (nome) VALUES (?)";
+					pstmt = con.prepareStatement(sql);
 					pstmt.setString(1, obj.getNome());
 					LOG.info(pstmt.toString());
-					pstmt.executeUpdate(sql);
+					pstmt.executeUpdate();
 					con.commit();
-					beanCrud.setMESSAGE_SERVER("Categoria salva na base de dados!");
+					beanCrud.setMESSAGE_SERVER("ok");
 					beanCrud.setBEAN_PAGINATION(getPagination(parameters, con));
 				}else {
 					beanCrud.setMESSAGE_SERVER("Já existe uma categoria com este nome na base de dados!");
@@ -123,6 +125,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 		} catch (SQLException e) {
 			System.out.println("Falha ao salvar o registro na base de dados: " 
 					+ e.getMessage());
+			e.printStackTrace();
 		}
 		
 		return beanCrud;
@@ -152,7 +155,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 					LOG.info(pstmt.toString());
 					pstmt.executeUpdate(sql);
 					con.commit();
-					beanCrud.setMESSAGE_SERVER("Os dados da Categoria foram atualizados na base de dados!");
+					beanCrud.setMESSAGE_SERVER("ok");
 					beanCrud.setBEAN_PAGINATION(getPagination(parameters, con));
 				}else {
 					beanCrud.setMESSAGE_SERVER("Os dados da categoria não foram atualizados na base de dados!");
@@ -182,7 +185,7 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			LOG.info(pstmt.toString());
 			pstmt.executeUpdate();
 			con.commit();
-			beanCrud.setMESSAGE_SERVER("Categoria excluída da base de dados");
+			beanCrud.setMESSAGE_SERVER("ok");
 			beanCrud.setBEAN_PAGINATION(getPagination(parameters, con));
 			
 		} catch (SQLException e) {

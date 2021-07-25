@@ -34,7 +34,7 @@
     <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/assets/css/styles.css">
     <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/assets/css/responsive.css">
     <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/css/view/estilos.css">
-    <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/css/view/sweetalert.css">
+    <link rel="stylesheet" href="<%out.print(getServletContext().getContextPath());%>/css/sweetalert.css">
     <!-- modernizr css -->
     <script src="<%out.print(getServletContext().getContextPath());%>/assets/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
@@ -102,8 +102,8 @@
 								<form id="frmCategoria">
 									<div class="row mt-3">
 										<div class="form-group col-sm-9 col-12">
-											<input class="form-control form-control-sm" placeholder="Nome"
-															type="text" id="idNome" name="nome">
+											<input type="text" id="txtNomeCategoria" name="txtNomeCategoria"
+												class="form-control form-control-sm" placeholder="Nome">
 										</div>
 										<div class="col-sm-3 col-12">
 											<button type="submit" id="btnBuscarCategoria" class="btn btn-primary btn-xs mr-3"><i class="fa fa-search" aria-hidden="true"></i> PESQUISAR</button>
@@ -160,7 +160,7 @@
         	data-keyboard="false" tabindex="-1" role="dialog">
         	<div class="modal-dialog" role="document">
         	<div class="modal-content">
-        		<form id="frmModalCategoria">
+        		<form id="frmCategoriaModal">
         			<div class="modal-header">
         				<h6 class="modal-title" id="tituloModalPrincipalCategoria"></h6>
         				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -170,12 +170,12 @@
         			<div class="modal-body">
         				<div class="col-12">
         					<div class="form-group">
-        					<label for="idNome">NOME</label>
-        					<input type="text" id="idNomeER" name="nomeER" class="form-control form-control-sm" placeholder="nome">
-        					<div class="error-validation" id="validarNome">Informe a categoria</div>
+        					<label for="txtNomeCategoriaER">NOME</label>
+        					<input type="text" id="txtNomeCategoriaER" name="txtNomeCategoriaER" class="form-control form-control-sm" placeholder="nome">
+        					<div class="error-validation" id="validarNomeCategoriaER">Informe a categoria</div>
         				</div>
         				</div>
-        				<input type="hidden" id="idCategoriaER" name="idCategoria" value="">
+        				<input type="hidden" id="txtIdCategoriaER" name="txtIdCategoriaER" value="">
         			
         			</div>
         			<div class="modal-footer">
@@ -243,6 +243,7 @@
     <script src="<%out.print(getServletContext().getContextPath());%>/assets/js/plugins.js"></script>
     <script src="<%out.print(getServletContext().getContextPath());%>/assets/js/scripts.js"></script>
     <script src="<%out.print(getServletContext().getContextPath());%>/js/view/jquery.Pagination.min.js"></script>
+    <script src="<%out.print(getServletContext().getContextPath());%>/js/view/sweetalert.min.js"></script>
     <script src="<%out.print(getServletContext().getContextPath());%>/js/utilities.js"></script>
 	<script src="<%out.print(getServletContext().getContextPath());%>/js/categoria.js"></script>
 	

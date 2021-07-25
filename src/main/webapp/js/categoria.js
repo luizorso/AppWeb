@@ -1,6 +1,9 @@
 $(document).ready(function(){
 	
 	$('#btnAbrirNCategoria').click(function (){
+		$('#txtNomeCategoriaER').val("");
+		$('.error-validation').fadeOut();
+		$('#actionCategoria').val("addCategoria");
 		$('#tituloModalPrincipalCategoria').html("CADASTRAR CATEGORIA");
 		$('#frmModalPrincipalCategoria').modal('show');
 	});
@@ -14,6 +17,14 @@ $(document).ready(function(){
 	
 	});
 	
+	$('#frmCategoriaModal').submit(function (){
+		if(validarFormCategoria()){
+			$('#nameFormCategoria').val("frmCategoriaModal");
+			$('#modalLoadCategoria').modal("show");
+		}
+		return false;
+		
+	});
 	
 	
 	$('#modalLoadCategoria').on('shown.bs.modal', function(){
@@ -22,11 +33,9 @@ $(document).ready(function(){
 	}); 
 	
 	addEventsCombosPaginar();
+	addValidationFormCategoria();
 	
 	$('#modalLoadCategoria').modal("show");
-	
-	
-	
 	
 	
 });
@@ -34,7 +43,7 @@ $(document).ready(function(){
 function processarAjaxCategoria(){
 	var dadosSerializadosCompletos = $('#' + $('#nameFormCategoria').val()).serialize();
 	if($('#nameFormCategoria').val().toLowerCase() !== "frmCategoria"){
-		dadosSerializadosCompletos += "&nome=" + $('#nome').val();
+		dadosSerializadosCompletos += "&txtNomeCategoria=" + $('#txtNomeCategoria').val();
 	}
 	
 	dadosSerializadosCompletos += "&numberPageCategoria=" + $('#numberPageCategoria').val();
@@ -47,12 +56,25 @@ function processarAjaxCategoria(){
 		data: dadosSerializadosCompletos,
 		dataType: 'json',
 		success: function(jsonResponse){
-			  $('#modalLoadCategoria').modal("hide");
+			$('#modalLoadCategoria').modal("hide");
+			if($('#actionCategoria').val().toLowerCase() === "paginarcategoria"){
+				listarCategoria(jsonResponse.BEAN_PAGINATION);
+			}else{
+				if(jsonResponse.MESSAGE_SERVER.toLowerCase() === "ok"){
+					$('#frmModalPrincipalCategoria').modal("hide");
+					listarCategoria(jsonResponse.BEAN_PAGINATION);
+					viewAlert('Dados salvos com sucesso!', 'success');
+				} else{
+					viewAlert(jsonResponse.MESSAGE_SERVER.toLowerCase(), 'warning');
+				}
+			}
+			 
 			  console.log(jsonResponse); 
-			  listarCategoria(jsonResponse.BEAN_PAGINATION);
+			  
 		},
 		
 		error: function (JqXRH, textStatus, errorThrown){
+			
 			console.log('Erro de chamada de ajax' + textStatus + errorThrown);
 			
 		}
@@ -82,6 +104,8 @@ function listarCategoria(BEAN_PAGINATION){
 			fila += "</tr>";
 			
 			$('#tbodyCategoria').append(fila);
+			
+			});
 			//Adição dos botões de paginação
 			
 			var defaultOptions = getDefaultOptionsPagination();
@@ -91,10 +115,31 @@ function listarCategoria(BEAN_PAGINATION){
 						$('#nameFormCategoria'), "frmCategoria", $('#modalLoadCategoria'));
 
 			$pagination.twbsPagination($.extend({}, defaultOptions, options ));
-			$('#idCategoria').focus();
-		});
-	}else{
+			$('#txtNomeCategoria').focus();
+		
+	} else {
 		console.log("Não há nenhum registro filtrado");
+		viewAlert('Nenhum registro encontrado', 'warning');
 	}
 	
+}
+
+function addValidationFormCategoria(){
+	$('#txtNomeCategoriaER').on('change', function(){
+		 $(this).val() === "" ? $('#validarNomeCategoriaER').fadeIn('slow') : $('#validarNomeCategoriaER').fadeOut();
+	
+	
+	});
+	
+}
+
+function validarFormCategoria(){
+	if($('#txtNomeCategoriaER').val( ) === ""){
+		$('#validarNomeCategoriaER').fadeIn('slow');
+		return false;
+	} else{
+		$('#validarNomeCategoriaER').fadeOut();
+		
+	}
+	return true;
 }

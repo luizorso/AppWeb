@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 function getDefaultOptionsPagination(){
 	var defaultOptions = {
 				totalPages: 10,
@@ -54,3 +50,16 @@ function addEventsCombosPaginar(){
 	});
 	
 }
+
+function viewAlert(message, type){
+	swal({
+        title: "WebApp",
+        text: message,
+        type: type,
+        showCancelButton: false,
+        confirmButtonText: "Fechar",
+        confirmButtonClass: 'btn btn-primary',
+        buttonsStyling: false
+    });
+}
+

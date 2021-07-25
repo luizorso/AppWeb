@@ -99,7 +99,7 @@ public class CategoriaAPI extends HttpServlet {
 				processCategoria(this.categoriaDAO.update(getCategoria(request), getParameters(request)), response);
 				break;
 			case "deleteCategoria":
-				processCategoria(this.categoriaDAO.remove(Integer.parseInt(request.getParameter("idCategoria")), getParameters(request)), response);
+				processCategoria(this.categoriaDAO.remove(Integer.parseInt(request.getParameter("txtIdCategoriaER")), getParameters(request)), response);
 				break;
 			default:
 				request.getRequestDispatcher("/pages/admin/categoria.jsp").forward(request, response);
@@ -125,7 +125,7 @@ public class CategoriaAPI extends HttpServlet {
 	
 	private HashMap<String, Object> getParameters(HttpServletRequest request) {
 		this.parameters.clear();
-		this.parameters.put("FILTER", request.getParameter("nome"));
+		this.parameters.put("FILTER", request.getParameter("txtNomeCategoria"));
 		this.parameters.put("SQL_ORDER_BY", "nome ASC");
 		// LIMIT 20 OFFSET 0
         
@@ -139,9 +139,9 @@ public class CategoriaAPI extends HttpServlet {
 	private Categoria getCategoria(HttpServletRequest request) {
 		Categoria categoria = new Categoria();
 		if(request.getParameter("action").equals("updateCategoria")) {
-			categoria.setIdCategoria(Integer.parseInt("idCategoriaER"));
+			categoria.setIdCategoria(Integer.parseInt("txtIdCategoriaER"));
 		}
-		categoria.setNome(request.getParameter("nomeER"));
+		categoria.setNome(request.getParameter("txtNomeCategoriaER"));
 		return categoria;
 		
 	}
