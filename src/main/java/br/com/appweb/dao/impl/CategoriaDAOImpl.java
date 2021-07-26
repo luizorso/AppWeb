@@ -150,15 +150,16 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 			while(rs.next()) {
 				if(rs.getInt("COUNT") == 0) {
 					sql = "UPDATE categoria set nome = ? WHERE idCategoria = ?";
+					pstmt = con.prepareStatement(sql);
 					pstmt.setString(1, obj.getNome());
 					pstmt.setInt(2, obj.getIdCategoria());
 					LOG.info(pstmt.toString());
-					pstmt.executeUpdate(sql);
+					pstmt.executeUpdate();
 					con.commit();
 					beanCrud.setMESSAGE_SERVER("ok");
 					beanCrud.setBEAN_PAGINATION(getPagination(parameters, con));
 				}else {
-					beanCrud.setMESSAGE_SERVER("Os dados da categoria não foram atualizados na base de dados!");
+					beanCrud.setMESSAGE_SERVER("Já existe uma categoria com este nome na base de dados!");
 					
 				}
 			}

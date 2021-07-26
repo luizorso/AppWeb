@@ -65,21 +65,19 @@ function processarAjaxCategoria(){
 					listarCategoria(jsonResponse.BEAN_PAGINATION);
 					viewAlert('Dados salvos com sucesso!', 'success');
 				} else{
-					viewAlert(jsonResponse.MESSAGE_SERVER.toLowerCase(), 'warning');
+					viewAlert(jsonResponse.MESSAGE_SERVER, 'warning');
 				}
 			}
 			 
-			  console.log(jsonResponse); 
+			  //console.log(jsonResponse); 
 			  
 		},
 		
 		error: function (JqXRH, textStatus, errorThrown){
-			
+			$('#modalLoadCategoria').modal("hide");
 			console.log('Erro de chamada de ajax' + textStatus + errorThrown);
-			
+			viewAlert('Erro interno do servidor', 'error');
 		}
-	
-	
 	 });
 }
 
@@ -115,22 +113,42 @@ function listarCategoria(BEAN_PAGINATION){
 						$('#nameFormCategoria'), "frmCategoria", $('#modalLoadCategoria'));
 
 			$pagination.twbsPagination($.extend({}, defaultOptions, options ));
+			addEventsButtonsCategoria();
 			$('#txtNomeCategoria').focus();
 		
 	} else {
-		console.log("Não há nenhum registro filtrado");
 		viewAlert('Nenhum registro encontrado', 'warning');
 	}
 	
 }
 
-function addValidationFormCategoria(){
-	$('#txtNomeCategoriaER').on('change', function(){
-		 $(this).val() === "" ? $('#validarNomeCategoriaER').fadeIn('slow') : $('#validarNomeCategoriaER').fadeOut();
-	
+function addEventsButtonsCategoria(){
+	$('.editar-categoria').each(function (index, value){
+		$(this).click(function (){
+			//console.log("clique aqui");
+			$('#txtIdCategoriaER').val($(this.parentElement.parentElement).attr('idCategoria'));
+			$('#txtNomeCategoriaER').val($(this.parentElement.parentElement).attr('nome'));
+			$('#tituloModalPrincipalCategoria').html("ATUALIZAR CATEGORIA");
+			$('#actionCategoria').val("updateCategoria");
+			$('#frmModalPrincipalCategoria').modal("show");
+			 
+		});
 	
 	});
 	
+	$('.excluir-categoria').each(function (index,value){
+		$(this).click(function (){
+			//console.log("clique aqui");
+		});
+	
+	});
+
+}
+
+function addValidationFormCategoria(){
+	$('#txtNomeCategoriaER').on('change', function(){
+		$(this).val() === "" ? $('#validarNomeCategoriaER').fadeIn('slow') : $('#validarNomeCategoriaER').fadeOut();
+	});
 }
 
 function validarFormCategoria(){
@@ -143,3 +161,4 @@ function validarFormCategoria(){
 	}
 	return true;
 }
+
