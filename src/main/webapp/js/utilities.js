@@ -63,3 +63,36 @@ function viewAlert(message, type){
     });
 }
 
+function viewAlertDelete(entidade){
+	swal({
+		title: 'AppWeb',
+		text: "Deseja excluir esta categoria?",
+		type: 'warning',
+		showCancelButton: true,
+		confirmButtonText: 'Sim',
+		confirmButtonClass: 'btn btn-primary',
+		cancelButtonClass: 'btn btn-danger',
+		buttonsStyling: false
+		}).then((result) => {
+			if(result.value){
+				$('#action' + entidade).val("delete" + entidade);
+				$("#nameForm" + entidade).val("frm"+ entidade +"Modal");
+				$('#modalLoad' + entidade).modal("show");
+						
+			}else{
+				swal({
+					title:"AppWeb",
+					text: "Operação Cancelada",
+					type: "success",
+					showCancelButton: false,
+					confirmButtonColor: '#3085d6',
+					confirmButtonText: 'Aceitar',
+					confirmButtonClass: 'btn btn-primary',
+					buttonsStyling: false
+				}
+			);
+		}
+
+	});
+ 	$('.swal2-confirm').css("margin-right", "15px");
+ }

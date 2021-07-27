@@ -13,6 +13,6 @@ public interface CRUD<T> {
 	BEAN_PAGINATION getPagination(HashMap<String, Object> parameters)throws SQLException;
 	BEAN_CRUD add(T obj, HashMap<String, Object> parameters)throws SQLException;
 	BEAN_CRUD update(T obj, HashMap<String, Object> parameters)throws SQLException;
-	BEAN_CRUD remove(Integer id, HashMap<String, Object> parameters)throws SQLException;
+	BEAN_CRUD delete(Integer id, HashMap<String, Object> parameters)throws SQLException;
 	
 }

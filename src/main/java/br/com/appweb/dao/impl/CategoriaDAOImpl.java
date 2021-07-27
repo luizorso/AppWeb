@@ -174,21 +174,23 @@ public class CategoriaDAOImpl implements CategoriaDAO {
 	}
 
 	@Override
-	public BEAN_CRUD remove(Integer id, HashMap<String, Object> parameters)
+	public BEAN_CRUD delete(Integer id, HashMap<String, Object> parameters)
 			throws SQLException {
 		BEAN_CRUD beanCrud = new BEAN_CRUD();
-		String sql = "DELETE FROM categoria WHERE idCategoria = ?";
-		PreparedStatement pstmt;
+		
 		try(Connection con = this.pool.getConnection();
 				SQLCloseable fim = con::rollback;) {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, id);
-			LOG.info(pstmt.toString());
-			pstmt.executeUpdate();
-			con.commit();
-			beanCrud.setMESSAGE_SERVER("ok");
-			beanCrud.setBEAN_PAGINATION(getPagination(parameters, con));
+			con.setAutoCommit(false);
 			
+			String sql = "DELETE FROM categoria WHERE idCategoria = ?";
+			try(PreparedStatement pstmt = con.prepareStatement(sql);){
+			pstmt.setInt(1, id);
+				LOG.info(pstmt.toString());
+				pstmt.executeUpdate();
+				con.commit();
+				beanCrud.setMESSAGE_SERVER("ok");
+				beanCrud.setBEAN_PAGINATION(getPagination(parameters, con));
+			}
 		} catch (SQLException e) {
 			System.out.println("Falha ao excluir o registro da base de dados: " 
 					+ e.getMessage());

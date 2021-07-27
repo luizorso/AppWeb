@@ -63,7 +63,7 @@ function processarAjaxCategoria(){
 				if(jsonResponse.MESSAGE_SERVER.toLowerCase() === "ok"){
 					$('#frmModalPrincipalCategoria').modal("hide");
 					listarCategoria(jsonResponse.BEAN_PAGINATION);
-					viewAlert('Dados salvos com sucesso!', 'success');
+					viewAlert('Operação efetuada com sucesso!', 'success');
 				} else{
 					viewAlert(jsonResponse.MESSAGE_SERVER, 'warning');
 				}
@@ -136,9 +136,11 @@ function addEventsButtonsCategoria(){
 	
 	});
 	
-	$('.excluir-categoria').each(function (index,value){
+	$('.excluir-categoria').each(function (index, value){
 		$(this).click(function (){
 			//console.log("clique aqui");
+			$('#txtIdCategoriaER').val($(this.parentElement.parentElement).attr('idCategoria'));
+			viewAlertDelete('Categoria');
 		});
 	
 	});

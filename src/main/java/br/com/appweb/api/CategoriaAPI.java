@@ -99,7 +99,7 @@ public class CategoriaAPI extends HttpServlet {
 				processCategoria(this.categoriaDAO.update(getCategoria(request), getParameters(request)), response);
 				break;
 			case "deleteCategoria":
-				processCategoria(this.categoriaDAO.remove(Integer.parseInt(request.getParameter("txtIdCategoriaER")), getParameters(request)), response);
+				processCategoria(this.categoriaDAO.delete(Integer.parseInt(request.getParameter("txtIdCategoriaER")), getParameters(request)), response);
 				break;
 			default:
 				request.getRequestDispatcher("/pages/admin/categoria.jsp").forward(request, response);
