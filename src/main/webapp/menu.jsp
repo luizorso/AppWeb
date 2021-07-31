@@ -7,8 +7,8 @@
 						class="fa fa-home"></i> <span>Início</span></a></li>
 				<li><a href="javascript:void(0)"><i class="fa fa-tag"></i><span>Administração</span></a>
 					<ul class="collapse">
-						<li><a href=""><i class="fa fa-cubes"></i> Categorias</a></li>
-						<li><a href=""><i class="fa fa-archive"></i> Produtos</a></li>
+						<li><a class="item" href="categorias"><i class="fa fa-cubes"></i> Categorias</a></li>
+						<li><a class="item" href="produtos"><i class="fa fa-archive"></i> Produtos</a></li>
 					</ul></li>
 			</ul>
 		</nav>

@@ -62,6 +62,8 @@ public class CategoriaAPI extends HttpServlet {
 		this.categoriaDAO = new CategoriaDAOImpl(this.pool);
 	
 	}
+	
+	
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
